@@ -20,7 +20,7 @@ if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
 
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
+    connect_args={"check_same_thread": False, "timeout": 30} if DATABASE_URL.startswith("sqlite") else {},
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -80,6 +80,8 @@ def init_db():
     db = SessionLocal()
     try:
         if DATABASE_URL.startswith("sqlite"):
+            db.execute(text("PRAGMA journal_mode=WAL;"))
+            db.execute(text("PRAGMA synchronous=NORMAL;"))
             res = db.execute(text("PRAGMA table_info(search_history);")).fetchall()
             cols = [r[1] for r in res]
             if "user_id" not in cols:
