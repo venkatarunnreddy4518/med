@@ -1236,7 +1236,7 @@ html_app = dedent(
         
         const headers = {{}};
         if (currentUser && currentUser.token) {{
-          headers['Authorization'] = `Bearer ${currentUser.token}`;
+          headers['Authorization'] = `Bearer ${{currentUser.token}}`;
         }}
         
         try {{
@@ -1310,7 +1310,7 @@ html_app = dedent(
         
         const headers = {{}};
         if (currentUser && currentUser.token) {{
-          headers['Authorization'] = `Bearer ${currentUser.token}`;
+          headers['Authorization'] = `Bearer ${{currentUser.token}}`;
         }}
         
         try {{
@@ -1356,7 +1356,7 @@ html_app = dedent(
         target.innerHTML = '<div class="loading">Loading your search history...</div>';
         try {{
           const res = await fetch(`${{API_BASE}}/auth/history`, {{
-            headers: {{ 'Authorization': `Bearer ${currentUser.token}` }}
+            headers: {{ 'Authorization': `Bearer ${{currentUser.token}}` }}
           }});
           if (!res.ok) throw new Error('Failed to fetch history');
           const data = await res.json();
@@ -1370,7 +1370,7 @@ html_app = dedent(
               </div>
             `;
             return;
-          }
+          }}
           
           const itemsHtml = data.map(h => {{
             const date = new Date(h.timestamp).toLocaleString();
@@ -1488,7 +1488,7 @@ html_app = dedent(
           return;
         }}
         
-        nameP.textContent = `${{esc(file.name)}} · ${(file.size / 1024).toFixed(1)} KB`;
+        nameP.textContent = `${{esc(file.name)}} · ${{ (file.size / 1024).toFixed(1) }} KB`;
         runBtn.style.display = 'block';
         
         const url = URL.createObjectURL(file);
