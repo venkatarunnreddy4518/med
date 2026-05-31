@@ -241,7 +241,8 @@ def _ocr_failure_message(attempts: List[Dict[str, Any]]) -> str:
 
 
 def _try_gemini(image_bytes: bytes) -> tuple[str, int, List[dict]]:
-    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", ""))
+    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", "")).strip()
+    print(f"[_try_gemini] API KEY LOADED: {api_key[:6]}... (len={len(api_key)})", flush=True)
     if not api_key:
         logger.debug("GEMINI_API_KEY / GOOGLE_API_KEY not set; skipping vision LLM")
         return "", 0, []
