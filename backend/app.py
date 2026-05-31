@@ -332,15 +332,13 @@ def home():
 
 @app.on_event("startup")
 def startup():
+    import threading
     try:
-        init_db()
-        print("[Medico.AI] Database initialized successfully.")
+        # Run database initialization in a background thread to prevent blocking Vercel cold-boots
+        threading.Thread(target=init_db, daemon=True).start()
+        print("[Medico.AI] Database initialization started in the background.")
     except Exception as e:
-        print(f"[Medico.AI] ERROR during database init: {e}")
-        import traceback
-        traceback.print_exc()
-        raise
-
+        print(f"[Medico.AI] ERROR starting background database init: {e}")
 
 
 @app.get("/health")
