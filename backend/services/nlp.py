@@ -128,12 +128,12 @@ def _rule_extract_details(text: str) -> List[Dict[str, Optional[str]]]:
 
 def _should_use_llm() -> bool:
     enabled = os.environ.get("MEDICO_USE_LLM_NLP", "").strip().lower()
-    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", ""))
+    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", "")).strip().strip('"').strip("'")
     return enabled in {"1", "true", "yes", "on"} and bool(api_key)
 
 
 def _llm_extract_details(text: str) -> List[Dict[str, Optional[str]]]:
-    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", ""))
+    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", "")).strip().strip('"').strip("'")
     if not api_key:
         return []
     try:
