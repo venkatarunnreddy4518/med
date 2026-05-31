@@ -29,7 +29,7 @@ st.markdown(
 html, body, .stApp {
   margin: 0 !important;
   padding: 0 !important;
-  background: #F7F9FC !important;
+  background: #F8FAFC !important;
 }
 .block-container {
   max-width: none !important;
@@ -60,138 +60,191 @@ html_app = dedent(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medico.AI — Save on Medicines</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
       :root {{
-        --green: #1DB954;
-        --green-light: #e8faf0;
-        --green-dark: #148a3d;
-        --orange: #FF6B35;
-        --blue: #2563EB;
-        --bg: #F7F9FC;
+        --green: #10B981;
+        --green-light: #ecfdf5;
+        --green-dark: #047857;
+        --orange: #F97316;
+        --blue: #3B82F6;
+        --bg: #F8FAFC;
         --card: #ffffff;
-        --text: #1a1a2e;
-        --muted: #6B7280;
-        --border: #E5E7EB;
-        --shadow: 0 4px 24px rgba(0,0,0,0.08);
-        --radius: 18px;
+        --text: #0F172A;
+        --muted: #64748B;
+        --border: #E2E8F0;
+        --shadow: 0 10px 30px -10px rgba(0,0,0,0.06);
+        --radius: 16px;
       }}
 
       * {{ margin: 0; padding: 0; box-sizing: border-box; }}
 
       body {{
-        font-family: 'Lato', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         background: var(--bg);
         color: var(--text);
         min-height: 100vh;
       }}
 
       nav {{
-        background: white;
-        border-bottom: 2px solid var(--border);
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
         padding: 0 32px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 68px;
+        height: 72px;
         position: sticky;
         top: 0;
         z-index: 100;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
       }}
       .logo {{
         display: flex;
         align-items: center;
-        gap: 10px;
-        font-family: 'Nunito', sans-serif;
-        font-weight: 900;
-        font-size: 1.5rem;
+        gap: 12px;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.6rem;
         color: var(--text);
         text-decoration: none;
       }}
       .logo-icon {{
-        width: 40px; height: 40px;
-        background: linear-gradient(135deg, var(--green), var(--green-dark));
+        width: 42px; height: 42px;
+        background: linear-gradient(135deg, #10B981, #059669);
         border-radius: 12px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 1.3rem;
-        box-shadow: 0 3px 10px rgba(29,185,84,0.35);
+        font-size: 1.4rem;
+        box-shadow: 0 8px 16px -4px rgba(16,185,129,0.3);
       }}
-      .nav-links {{ display: flex; gap: 8px; align-items: center; }}
+      .nav-links {{ display: flex; gap: 6px; align-items: center; }}
       .nav-links a {{
-        font-family: 'Nunito', sans-serif;
-        font-weight: 700;
-        font-size: 0.95rem;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 600;
+        font-size: 0.92rem;
         color: var(--muted);
         text-decoration: none;
         padding: 8px 16px;
         border-radius: 10px;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
       }}
       .nav-links a:hover, .nav-links a.active {{
         background: var(--green-light);
         color: var(--green-dark);
       }}
+      
+      .right-nav-container {{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }}
+      
       .status-pill {{
         display: flex; align-items: center; gap: 6px;
         background: var(--green-light);
         color: var(--green-dark);
         font-weight: 700;
-        font-size: 0.82rem;
+        font-size: 0.8rem;
         padding: 6px 14px;
         border-radius: 99px;
-        border: 1.5px solid var(--green);
+        border: 1px solid rgba(16,185,129,0.2);
       }}
-      .dot {{ width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 1.8s infinite; }}
-      @keyframes pulse {{ 0%,100%{{opacity:1}} 50%{{opacity:0.4}} }}
-      .auth-actions {{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }}
+      .dot {{ width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }}
+      @keyframes pulse {{ 0%,100%{{opacity:1}} 50%{{opacity:0.3}} }}
+      
+      .auth-actions {{ display:flex; gap:10px; align-items:center; }}
       .auth-btn {{
-        border:2px solid var(--green);
-        background:white;
-        color:var(--green-dark);
-        padding:7px 12px;
-        border-radius:10px;
-        font-family:'Nunito',sans-serif;
-        font-weight:800;
-        cursor:pointer;
+        border: 1.5px solid var(--border);
+        background: white;
+        color: var(--text);
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        font-size: 0.88rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
       }}
-      .auth-btn.primary {{ background:var(--green); color:white; }}
-      .auth-user {{ color:var(--green-dark); font-weight:800; font-family:'Nunito',sans-serif; }}
-      .modal {{
-        position:fixed; inset:0; z-index:999;
-        display:none; place-items:center;
-        background:rgba(15,23,42,0.55);
-        padding:20px;
+      .auth-btn:hover {{
+        border-color: var(--text);
+        background: #F8FAFC;
       }}
-      .modal.active {{ display:grid; }}
-      .auth-card {{
-        width:min(420px,100%);
-        background:white;
-        border-radius:18px;
-        padding:24px;
-        box-shadow:0 24px 80px rgba(0,0,0,0.25);
+      .auth-btn.primary {{
+        background: var(--text);
+        color: white;
+        border-color: var(--text);
       }}
-      .auth-card h2 {{ font-family:'Nunito',sans-serif; font-weight:900; margin-bottom:8px; }}
-      .auth-card input {{
-        width:100%;
-        border:2px solid var(--border);
-        border-radius:12px;
-        padding:12px 14px;
-        margin:8px 0;
-        font:inherit;
+      .auth-btn.primary:hover {{
+        background: #1E293B;
+        border-color: #1E293B;
       }}
-      .auth-row {{ display:flex; gap:10px; margin-top:12px; }}
-      .auth-row button {{ flex:1; }}
-      .source-note {{
-        margin:10px 24px 0;
-        color:var(--muted);
-        font-size:0.86rem;
-        font-weight:700;
+      .auth-user {{
+        color: var(--text);
+        font-weight: 700;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.9rem;
       }}
 
+      /* Glassmorphic Modal */
+      .modal {{
+        position: fixed; inset: 0; z-index: 999;
+        display: none; place-items: center;
+        background: rgba(15,23,42,0.4);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }}
+      .modal.active {{ display: grid; opacity: 1; }}
+      .auth-card {{
+        width: min(420px, 100%);
+        background: white;
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+        border: 1px solid var(--border);
+        transform: translateY(20px);
+        transition: transform 0.25s ease;
+      }}
+      .modal.active .auth-card {{ transform: translateY(0); }}
+      .auth-card h2 {{
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+        color: var(--text);
+      }}
+      .auth-card label {{
+        font-weight: 600;
+        font-size: 0.82rem;
+        color: var(--muted);
+        display: block;
+        margin-top: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }}
+      .auth-card input {{
+        width: 100%;
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin-top: 6px;
+        font: inherit;
+        outline: none;
+        transition: all 0.2s ease;
+        color: var(--text);
+      }}
+      .auth-card input:focus {{
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px rgba(16,185,129,0.15);
+      }}
+      
       .hero {{
-        background: linear-gradient(135deg, #0f4c35 0%, #1a7a4f 50%, #1DB954 100%);
-        padding: 56px 32px 48px;
+        background: radial-gradient(circle at top left, #065f46 0%, #047857 50%, #065f46 100%);
+        padding: 72px 32px 64px;
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -199,434 +252,478 @@ html_app = dedent(
       .hero::before {{
         content: '';
         position: absolute; inset: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       }}
       .hero h1 {{
-        font-family: 'Nunito', sans-serif;
-        font-weight: 900;
-        font-size: clamp(2rem, 4vw, 3rem);
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: clamp(2.2rem, 5vw, 3.2rem);
         color: white;
         line-height: 1.15;
+        letter-spacing: -0.02em;
         position: relative;
       }}
       .hero p {{
         color: rgba(255,255,255,0.85);
-        font-size: 1.15rem;
-        margin: 12px auto 0;
-        max-width: 520px;
+        font-size: 1.2rem;
+        margin: 14px auto 0;
+        max-width: 580px;
+        font-weight: 500;
         position: relative;
       }}
 
       .search-section {{
-        max-width: 680px;
-        margin: -28px auto 0;
+        max-width: 720px;
+        margin: -32px auto 0;
         padding: 0 24px;
         position: relative;
         z-index: 10;
       }}
       .search-box {{
         background: white;
-        border-radius: 20px;
-        padding: 8px 8px 8px 20px;
+        border-radius: 24px;
+        padding: 10px 10px 10px 24px;
         display: flex;
         align-items: center;
-        gap: 12px;
-        box-shadow: 0 8px 40px rgba(0,0,0,0.15);
-        border: 2px solid transparent;
-        transition: border 0.2s;
+        gap: 14px;
+        box-shadow: 0 20px 40px -15px rgba(15,23,42,0.12);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
       }}
-      .search-box:focus-within {{ border-color: var(--green); }}
+      .search-box:focus-within {{
+        border-color: var(--green);
+        box-shadow: 0 20px 40px -15px rgba(16,185,129,0.15);
+      }}
       .search-box input {{
         flex: 1;
         border: none; outline: none;
-        font-family: 'Nunito', sans-serif;
-        font-size: 1.1rem;
-        font-weight: 700;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.15rem;
+        font-weight: 600;
         color: var(--text);
         background: transparent;
       }}
-      .search-box input::placeholder {{ color: #b0b8c4; font-weight: 600; }}
+      .search-box input::placeholder {{ color: #94A3B8; font-weight: 500; }}
       .search-btn {{
-        background: linear-gradient(135deg, var(--green), var(--green-dark));
+        background: linear-gradient(135deg, #10B981, #059669);
         color: white;
         border: none;
-        border-radius: 14px;
-        padding: 12px 28px;
-        font-family: 'Nunito', sans-serif;
-        font-weight: 800;
+        border-radius: 16px;
+        padding: 14px 32px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
-        transition: transform 0.15s, box-shadow 0.15s;
+        transition: all 0.2s ease;
         white-space: nowrap;
+        box-shadow: 0 4px 12px rgba(16,185,129,0.2);
       }}
-      .search-btn:hover {{ transform: translateY(-1px); box-shadow: 0 6px 20px rgba(29,185,84,0.45); }}
+      .search-btn:hover {{
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(16,185,129,0.3);
+      }}
       .search-hint {{
         text-align: center;
         color: var(--muted);
-        font-size: 0.85rem;
-        margin-top: 10px;
+        font-size: 0.88rem;
+        margin-top: 12px;
+        font-weight: 500;
       }}
 
-      .main {{ max-width: 960px; margin: 40px auto 60px; padding: 0 24px; }}
+      .main {{ max-width: 1020px; margin: 48px auto 80px; padding: 0 24px; }}
+      
       .summary-cards {{
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-bottom: 32px;
+        gap: 20px;
+        margin-bottom: 40px;
       }}
-      @media(max-width:700px){{ .summary-cards {{ grid-template-columns: repeat(2,1fr); }} }}
+      @media(max-width:768px){{ .summary-cards {{ grid-template-columns: repeat(2,1fr); }} }}
+      @media(max-width:480px){{ .summary-cards {{ grid-template-columns: 1fr; }} }}
+      
       .sum-card {{
         background: white;
         border-radius: var(--radius);
-        padding: 22px 16px;
+        padding: 24px 20px;
         text-align: center;
         box-shadow: var(--shadow);
-        border: 2px solid var(--border);
-        transition: transform 0.2s;
+        border: 1px solid var(--border);
+        transition: all 0.25s ease;
       }}
-      .sum-card:hover {{ transform: translateY(-3px); }}
+      .sum-card:hover {{
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05);
+      }}
       .sum-card .big {{
-        font-family: 'Nunito', sans-serif;
-        font-size: 2rem;
-        font-weight: 900;
-        line-height: 1;
+        font-family: 'Outfit', sans-serif;
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1.1;
         margin-bottom: 6px;
       }}
       .sum-card .label {{
-        font-size: 0.82rem;
+        font-size: 0.8rem;
         color: var(--muted);
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.06em;
       }}
       .sum-card.green .big {{ color: var(--green-dark); }}
       .sum-card.orange .big {{ color: var(--orange); }}
       .sum-card.blue .big {{ color: var(--blue); }}
-      .sum-card.save {{ background: linear-gradient(135deg, #e8faf0, #d0f5e3); border-color: var(--green); }}
+      .sum-card.save {{
+        background: linear-gradient(135deg, var(--green-light), #d1fae5);
+        border-color: rgba(16,185,129,0.3);
+      }}
       .sum-card.save .big {{ color: var(--green-dark); }}
 
       .section-title {{
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Outfit', sans-serif;
         font-weight: 800;
-        font-size: 1.25rem;
+        font-size: 1.4rem;
         color: var(--text);
-        margin-bottom: 16px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
       }}
 
       .result-card {{
         background: white;
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        border: 2px solid var(--border);
+        border: 1px solid var(--border);
         overflow: hidden;
-        margin-bottom: 24px;
+        margin-bottom: 32px;
       }}
       .result-header {{
-        padding: 18px 24px;
+        padding: 22px 28px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 2px solid var(--border);
-        background: #fafafa;
+        border-bottom: 1.5px solid var(--border);
+        background: #FAFAFB;
       }}
       .medicine-name {{
-        font-family: 'Nunito', sans-serif;
-        font-weight: 900;
-        font-size: 1.3rem;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
         color: var(--text);
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         flex-wrap: wrap;
       }}
       .badge {{
         display: inline-flex; align-items: center; gap: 4px;
-        padding: 4px 12px;
+        padding: 6px 14px;
         border-radius: 99px;
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         font-weight: 700;
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
       }}
-      .badge-green {{ background: var(--green-light); color: var(--green-dark); border: 1.5px solid var(--green); }}
-      .badge-orange {{ background: #fff4ee; color: #c94a1a; border: 1.5px solid var(--orange); }}
-      .badge-muted {{ background:#f3f4f6;color:#6b7280;border:1.5px solid #d1d5db; }}
+      .badge-green {{ background: var(--green-light); color: var(--green-dark); border: 1px solid rgba(16,185,129,0.2); }}
+      .badge-orange {{ background: #FFF7ED; color: #C2410C; border: 1px solid rgba(249,115,22,0.2); }}
+      .badge-muted {{ background: #F1F5F9; color: #475569; border: 1px solid rgba(71,85,105,0.15); }}
 
       .composition {{
-        padding: 12px 24px;
-        background: #f0f9ff;
-        border-bottom: 1.5px solid var(--border);
-        font-size: 0.9rem;
-        color: #1e40af;
+        padding: 14px 28px;
+        background: #F0FDF4;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.92rem;
+        color: #065F46;
         font-weight: 600;
       }}
       .composition span {{ font-weight: 800; }}
-      .options-wrap {{ padding: 0 24px 8px; overflow-x: auto; }}
-      table {{ width: 100%; border-collapse: collapse; margin: 16px 0; }}
-      thead tr {{ background: #f3f4f6; }}
+      .options-wrap {{ padding: 0 28px 12px; overflow-x: auto; }}
+      
+      table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
+      thead tr {{ background: #F8FAFC; border-radius: 8px; }}
       th {{
-        font-family: 'Nunito', sans-serif;
-        font-size: 0.78rem;
-        font-weight: 800;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: var(--muted);
-        padding: 10px 14px;
+        padding: 12px 16px;
         text-align: left;
         white-space: nowrap;
       }}
       td {{
-        padding: 14px 14px;
+        padding: 16px 16px;
         font-size: 0.95rem;
         color: var(--text);
-        border-bottom: 1.5px solid var(--border);
+        border-bottom: 1px solid var(--border);
         vertical-align: middle;
       }}
       tr:last-child td {{ border-bottom: none; }}
-      tr:hover td {{ background: #f9fafb; }}
-      .best-row td {{ background: #f0fff6 !important; }}
-      .option-name {{ font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem; }}
+      tr:hover td {{ background: #F8FAFC; }}
+      .best-row td {{ background: #F0FDF4 !important; }}
+      .option-name {{ font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.05rem; }}
+      
       .star-badge {{
         display: inline-flex; align-items: center; gap: 4px;
-        background: #fff8e1; color: #b45309;
-        border: 1.5px solid #fcd34d;
-        padding: 2px 8px; border-radius: 99px;
+        background: #FEF3C7; color: #92400E;
+        border: 1px solid rgba(251,191,36,0.3);
+        padding: 3px 10px; border-radius: 99px;
         font-size: 0.75rem; font-weight: 700;
+        margin-left: 8px;
       }}
-      .price {{ font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem; }}
+      .price {{ font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.1rem; }}
       .price-generic {{ color: var(--green-dark); }}
       .price-branded {{ color: var(--orange); }}
+      
       .savings-chip {{
         display: inline-block;
         background: var(--green-light);
         color: var(--green-dark);
         border-radius: 8px;
-        padding: 3px 10px;
+        padding: 4px 10px;
         font-weight: 800;
-        font-size: 0.88rem;
-        font-family: 'Nunito', sans-serif;
+        font-size: 0.85rem;
       }}
 
       .cheapest-banner {{
-        margin: 0 24px 20px;
-        background: linear-gradient(90deg, #1DB954, #148a3d);
-        border-radius: 14px;
-        padding: 16px 22px;
+        margin: 0 28px 24px;
+        background: linear-gradient(90deg, #10B981, #059669);
+        border-radius: 16px;
+        padding: 18px 24px;
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 16px;
         color: white;
+        box-shadow: 0 10px 20px -10px rgba(16,185,129,0.3);
       }}
       .cheapest-icon {{
-        width: 42px; height: 42px;
+        width: 44px; height: 44px;
         background: rgba(255,255,255,0.2);
         border-radius: 12px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 1.4rem; flex-shrink: 0;
+        font-size: 1.5rem; flex-shrink: 0;
       }}
       .cheapest-text .title {{
-        font-family: 'Nunito', sans-serif;
-        font-weight: 900;
-        font-size: 1.05rem;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.1rem;
       }}
       .cheapest-text .sub {{
-        font-size: 0.88rem;
-        opacity: 0.88;
-        margin-top: 2px;
+        font-size: 0.9rem;
+        opacity: 0.9;
+        margin-top: 3px;
       }}
 
-      .how-section {{ margin: 40px 0; }}
-      .steps {{ display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }}
-      @media(max-width:600px){{ .steps {{ grid-template-columns: 1fr; }} }}
+      .how-section {{ margin: 56px 0; }}
+      .steps {{ display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }}
+      @media(max-width:768px){{ .steps {{ grid-template-columns: 1fr; }} }}
+      
       .step-card {{
         background: white;
         border-radius: var(--radius);
-        padding: 28px 22px;
+        padding: 32px 24px;
         text-align: center;
         box-shadow: var(--shadow);
-        border: 2px solid var(--border);
+        border: 1px solid var(--border);
         position: relative;
+        transition: transform 0.2s ease;
       }}
+      .step-card:hover {{ transform: translateY(-3px); }}
       .step-num {{
-        width: 44px; height: 44px;
+        width: 46px; height: 46px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--green), var(--green-dark));
+        background: linear-gradient(135deg, #10B981, #059669);
         color: white;
-        font-family: 'Nunito', sans-serif;
-        font-weight: 900;
-        font-size: 1.25rem;
-        display: flex; align-items: center; justify-content: center;
-        margin: 0 auto 14px;
-        box-shadow: 0 4px 14px rgba(29,185,84,0.35);
-      }}
-      .step-icon {{ font-size: 2rem; margin-bottom: 8px; }}
-      .step-card h3 {{
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Outfit', sans-serif;
         font-weight: 800;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 16px;
+        box-shadow: 0 6px 12px rgba(16,185,129,0.25);
+      }}
+      .step-icon {{ font-size: 2.2rem; margin-bottom: 8px; }}
+      .step-card h3 {{
+        font-family: 'Outfit', sans-serif;
+        font-weight: 700;
+        font-size: 1.15rem;
         margin-bottom: 8px;
       }}
-      .step-card p {{ color: var(--muted); font-size: 0.92rem; line-height: 1.5; }}
+      .step-card p {{ color: var(--muted); font-size: 0.92rem; line-height: 1.5; font-weight: 500; }}
 
       .upload-card {{
         background: white;
         border-radius: var(--radius);
-        padding: 36px;
+        padding: 48px 32px;
         text-align: center;
         box-shadow: var(--shadow);
-        border: 3px dashed var(--border);
-        margin-bottom: 32px;
-        transition: border-color 0.2s;
+        border: 2px dashed rgba(148,163,184,0.5);
+        margin-bottom: 40px;
+        transition: all 0.2s ease;
       }}
-      .upload-card:hover {{ border-color: var(--green); background: var(--green-light); }}
-      .upload-icon {{ font-size: 3rem; margin-bottom: 12px; }}
+      .upload-card:hover {{ border-color: var(--green); background: #FAFDFB; }}
+      .upload-icon {{ font-size: 3.5rem; margin-bottom: 16px; }}
       .upload-card h2 {{
-        font-family: 'Nunito', sans-serif;
-        font-weight: 900;
-        font-size: 1.4rem;
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.6rem;
         margin-bottom: 8px;
       }}
-      .upload-card p {{ color: var(--muted); margin-bottom: 20px; }}
+      .upload-card p {{ color: var(--muted); margin-bottom: 24px; font-weight: 500; }}
       .btn-upload {{
-        background: linear-gradient(135deg, var(--green), var(--green-dark));
+        background: linear-gradient(135deg, #10B981, #059669);
         color: white;
         border: none;
-        padding: 14px 32px;
+        padding: 16px 36px;
         border-radius: 14px;
-        font-family: 'Nunito', sans-serif;
-        font-weight: 800;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
-        box-shadow: 0 4px 16px rgba(29,185,84,0.35);
-        transition: transform 0.15s;
+        box-shadow: 0 6px 20px rgba(16,185,129,0.3);
+        transition: all 0.2s ease;
       }}
-      .btn-upload:hover {{ transform: translateY(-2px); }}
-      input[type=file] {{ margin: 14px 0; }}
+      .btn-upload:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(16,185,129,0.4);
+      }}
+      
       .scan-panel {{
         display: grid;
-        grid-template-columns: minmax(220px, 0.9fr) minmax(260px, 1.1fr);
-        gap: 18px;
+        grid-template-columns: 0.90fr 1.10fr;
+        gap: 24px;
         align-items: start;
-        margin: 18px 0 24px;
+        margin: 24px 0 32px;
       }}
       .preview-box, .scan-detail-box {{
         background: white;
-        border: 2px solid var(--border);
+        border: 1px solid var(--border);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
         overflow: hidden;
       }}
       .preview-box img {{
         width: 100%;
-        max-height: 460px;
+        max-height: 480px;
         object-fit: contain;
-        background: #f3f4f6;
+        background: #F1F5F9;
         display: block;
       }}
       .preview-empty {{
-        padding: 34px 18px;
+        padding: 48px 24px;
         color: var(--muted);
-        font-weight: 700;
+        font-weight: 600;
         text-align: center;
       }}
-      .scan-detail-box {{ padding: 18px; }}
-      .pill-list {{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }}
+      .scan-detail-box {{ padding: 24px; }}
+      .pill-list {{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }}
       .med-pill {{
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 7px 10px;
+        padding: 8px 14px;
         border-radius: 99px;
         background: var(--green-light);
-        border: 1.5px solid var(--green);
+        border: 1px solid rgba(16,185,129,0.25);
         color: var(--green-dark);
-        font-family: 'Nunito', sans-serif;
-        font-weight: 800;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
         font-size: 0.88rem;
       }}
       .scan-lines {{
-        margin-top: 12px;
-        max-height: 220px;
-        overflow: auto;
+        margin-top: 16px;
+        max-height: 240px;
+        overflow-y: auto;
         border-top: 1px solid var(--border);
+        padding-top: 8px;
       }}
       .scan-line {{
-        padding: 9px 0;
-        border-bottom: 1px solid var(--border);
+        padding: 10px 0;
+        border-bottom: 1px solid #F1F5F9;
         color: var(--muted);
         font-size: 0.9rem;
       }}
-      .scan-line strong {{ color: var(--text); }}
-      textarea {{
-        width: 100%;
-        min-height: 160px;
-        resize: vertical;
-        border: 2px solid var(--border);
-        border-radius: 14px;
-        padding: 14px;
-        font-family: 'Lato', sans-serif;
-        font-size: 1rem;
-      }}
+      .scan-line strong {{ color: var(--text); margin-right: 8px; }}
 
       .disclaimer {{
-        background: #fffbeb;
-        border: 2px solid #fcd34d;
-        border-radius: 14px;
-        padding: 16px 20px;
+        background: #FFFBEB;
+        border: 1px solid rgba(251,191,36,0.3);
+        border-radius: 16px;
+        padding: 20px 24px;
         display: flex;
-        gap: 12px;
+        gap: 14px;
         align-items: flex-start;
-        margin-top: 24px;
+        margin-top: 32px;
       }}
-      .disclaimer-icon {{ font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }}
+      .disclaimer-icon {{ font-size: 1.5rem; flex-shrink: 0; }}
       .disclaimer p {{
-        color: #92400e;
-        font-size: 0.9rem;
-        line-height: 1.5;
+        color: #92400E;
+        font-size: 0.92rem;
+        line-height: 1.55;
         font-weight: 600;
       }}
 
-      .tabs {{ display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; }}
+      .tabs {{ display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }}
       .tab {{
-        padding: 10px 22px;
+        padding: 12px 24px;
         border-radius: 12px;
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         cursor: pointer;
-        border: 2px solid var(--border);
+        border: 1px solid var(--border);
         background: white;
         color: var(--muted);
-        transition: all 0.15s;
+        transition: all 0.2s ease;
       }}
+      .tab:hover {{ border-color: #94A3B8; color: var(--text); }}
       .tab.active {{
-        background: var(--green);
+        background: var(--text);
         color: white;
-        border-color: var(--green);
-        box-shadow: 0 3px 12px rgba(29,185,84,0.3);
+        border-color: var(--text);
+        box-shadow: 0 4px 12px rgba(15,23,42,0.15);
       }}
 
       .page-section {{ display: none; }}
       .page-section.active {{ display: block; }}
       .loading, .error-msg {{
         text-align: center;
-        padding: 18px;
+        padding: 24px;
         color: var(--muted);
         font-weight: 700;
       }}
-      .error-msg {{ color: #c94a1a; }}
+      .error-msg {{ color: #DC2626; }}
+      
+      .history-item {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 24px;
+        margin-bottom: 12px;
+        border-radius: 14px;
+        border: 1.5px solid var(--border);
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }}
+      .history-item:hover {{
+        border-color: var(--green);
+        box-shadow: var(--shadow);
+        transform: translateX(4px);
+      }}
+
       footer {{
-        background: #1a1a2e;
+        background: #0F172A;
         color: rgba(255,255,255,0.6);
         text-align: center;
-        padding: 20px;
-        font-size: 0.88rem;
+        padding: 32px 24px;
+        font-size: 0.9rem;
+        margin-top: 120px;
+        border-top: 1px solid #1E293B;
       }}
       footer span {{ color: var(--green); font-weight: 700; }}
-      @media(max-width:760px) {{
-        nav {{ height: auto; padding: 16px; flex-direction: column; align-items: flex-start; }}
+      
+      @media(max-width:768px) {{
+        nav {{ height: auto; padding: 16px 24px; flex-direction: column; align-items: flex-start; gap: 14px; }}
+        .right-nav-container {{ width: 100%; justify-content: space-between; }}
         .nav-links {{ flex-wrap: wrap; }}
         .search-box {{ flex-direction: column; align-items: stretch; }}
         .summary-cards {{ grid-template-columns: 1fr; }}
@@ -637,7 +734,7 @@ html_app = dedent(
     <body>
 
     <nav>
-      <a href="#" class="logo">
+      <a href="#" class="logo" onclick="showPage('home', document.querySelector('.nav-links a'))">
         <div class="logo-icon">💊</div>
         Medico.AI
       </a>
@@ -646,22 +743,60 @@ html_app = dedent(
         <a href="#" onclick="showPage('upload',this)">📷 Upload Prescription</a>
         <a href="#" onclick="showPage('search',this)">🔍 Search Medicine</a>
         <a href="#" onclick="showPage('browse',this)">📋 Browse</a>
+        <a href="#" id="historyLink" onclick="showPage('history',this)" style="display:none">⏳ History</a>
       </div>
-      <div class="status-pill">
-        <div class="dot"></div>
-        <span id="statusText">Checking backend...</span>
+      <div class="right-nav-container">
+        <div class="status-pill">
+          <div class="dot"></div>
+          <span id="statusText">Checking backend...</span>
+        </div>
+        <div id="authContainer" class="auth-actions">
+          <button class="auth-btn" onclick="openAuthModal('login')">Login</button>
+          <button class="auth-btn primary" onclick="openAuthModal('signup')">Sign Up</button>
+        </div>
       </div>
     </nav>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+      <div class="auth-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h2 id="modalTitle">Welcome Back</h2>
+          <button onclick="closeAuthModal()" style="background:none; border:none; font-size:1.8rem; cursor:pointer; color:var(--muted);">&times;</button>
+        </div>
+        <div id="authError" class="error-msg" style="display:none; margin-bottom:16px; font-size:0.9rem; text-align:left; padding:0;"></div>
+        
+        <form id="authForm" onsubmit="handleAuthSubmit(event)">
+          <div id="nameFieldGroup" style="display:none;">
+            <label for="authName">Full Name</label>
+            <input type="text" id="authName" placeholder="John Doe">
+          </div>
+          <div>
+            <label for="authEmail">Email Address</label>
+            <input type="email" id="authEmail" required placeholder="john@example.com">
+          </div>
+          <div>
+            <label for="authPassword">Password</label>
+            <input type="password" id="authPassword" required placeholder="••••••••" minlength="6">
+          </div>
+          <button type="submit" class="search-btn" style="width:100%; margin-top:20px; padding:14px;" id="authSubmitBtn">Login</button>
+        </form>
+        <p style="text-align:center; font-size:0.9rem; color:var(--muted); margin-top:20px; font-weight:600;">
+          <span id="modalToggleText">Don't have an account?</span>
+          <a href="#" id="modalToggleLink" onclick="toggleAuthMode()" style="color:var(--green-dark); font-weight:700; text-decoration:none; margin-left:4px;">Sign Up</a>
+        </p>
+      </div>
+    </div>
 
     <div id="page-home" class="page-section active">
       <div class="hero">
         <h1>💊 Find Cheaper Medicines<br>Save Up to 80%</h1>
-        <p>Type any medicine name and instantly see affordable generic alternatives</p>
+        <p>Upload your prescription or type any branded medicine to instantly find high-quality generic alternatives</p>
       </div>
 
       <div class="search-section">
         <div class="search-box">
-          <span style="font-size:1.3rem">🔍</span>
+          <span style="font-size:1.4rem">🔍</span>
           <input type="text" id="searchInput" placeholder="e.g. Augmentin, Crocin, Lipitor..." value="Augmentin">
           <button class="search-btn" onclick="searchHome()">Search →</button>
         </div>
@@ -679,16 +814,16 @@ html_app = dedent(
               <p>Take a photo of your prescription or simply type the medicine name</p>
             </div>
             <div class="step-card">
-              <div class="step-icon">🤖</div>
+              <div class="step-icon">🧠</div>
               <div class="step-num">2</div>
               <h3>AI Finds Alternatives</h3>
-              <p>Our AI matches brands to their generic salt compositions instantly</p>
+              <p>Our intelligent system matches brands to their generic salt compositions instantly</p>
             </div>
             <div class="step-card">
               <div class="step-icon">💰</div>
               <div class="step-num">3</div>
-              <h3>Save Money</h3>
-              <p>See ranked cheaper options including Jan Aushadhi store prices</p>
+              <h3>Save Big</h3>
+              <p>Compare generic drug alternatives side-by-side with Jan Aushadhi prices</p>
             </div>
           </div>
         </div>
@@ -701,17 +836,20 @@ html_app = dedent(
     </div>
 
     <div id="page-upload" class="page-section">
-      <div class="main" style="max-width:680px">
+      <div class="main" style="max-width:760px">
         <div class="section-title" style="margin-top:16px">📷 Upload Your Prescription</div>
         <div class="upload-card">
           <div class="upload-icon">🗒️</div>
           <h2>Take a Photo or Upload</h2>
-          <p>Our AI will read your prescription and find cheaper alternatives for all medicines</p>
-          <input id="prescriptionFile" type="file" accept="image/jpeg,image/png,image/webp,image/bmp,image/tiff">
-          <br>
-          <button class="btn-upload" onclick="uploadPrescription()">📷 Analyse Prescription</button>
-          <p style="margin-top:14px;font-size:0.82rem;color:#aaa">Supports JPG, PNG, WebP, BMP, TIFF · Max 10MB</p>
+          <p>Our advanced OCR reads handwritten or printed prescriptions to compare costs</p>
+          <input id="prescriptionFile" type="file" accept="image/jpeg,image/png,image/webp,image/bmp,image/tiff" style="display:none">
+          <button class="btn-upload" onclick="document.getElementById('prescriptionFile').click()">Choose Prescription Image</button>
+          <p style="margin-top:14px;font-size:0.85rem;color:#94A3B8" id="selectedFileName">Supports JPG, PNG, WebP, BMP, TIFF · Max 10MB</p>
+          <button class="search-btn" id="runOcrBtn" onclick="uploadPrescription()" style="margin-top:20px; display:none; width:100%; padding:14px;">Analyse Prescription Image →</button>
         </div>
+        
+        <div id="uploadVercelWarning" class="error" style="display:none; margin-bottom:20px; text-align:left; padding:16px; border-radius:12px;"></div>
+        
         <div class="scan-panel">
           <div class="preview-box" id="previewBox">
             <div class="preview-empty">Selected prescription image will appear here</div>
@@ -730,11 +868,11 @@ html_app = dedent(
     </div>
 
     <div id="page-search" class="page-section">
-      <div class="main" style="max-width:680px">
+      <div class="main" style="max-width:760px">
         <div class="section-title" style="margin-top:16px">🔍 Search Medicine</div>
         <div class="search-box" style="margin-bottom:16px">
-          <span style="font-size:1.3rem">🔍</span>
-          <input id="searchPageInput" type="text" placeholder="Type medicine name...">
+          <span style="font-size:1.4rem">🔍</span>
+          <input id="searchPageInput" type="text" placeholder="Type brand or generic name...">
           <button class="search-btn" onclick="searchStandalone()">Search →</button>
         </div>
         <p class="search-hint" style="text-align:left;margin-bottom:24px">Popular: Crocin · Metformin · Atorvastatin · Pantoprazole · Azithromycin</p>
@@ -752,9 +890,20 @@ html_app = dedent(
         <div class="tabs" id="categoryTabs">
           <div class="tab active" onclick="browseMedicines('', this)">All</div>
         </div>
-        <div id="browseResults" class="result-card" style="padding:24px;text-align:center;color:var(--muted)">
-          <div style="font-size:2.5rem;margin-bottom:12px">📚</div>
-          <strong style="font-size:1.1rem;font-family:'Nunito',sans-serif">Medicine database loading...</strong>
+        <div id="browseResults" class="result-card" style="padding:48px;text-align:center;color:var(--muted)">
+          <div style="font-size:3rem;margin-bottom:16px">📚</div>
+          <strong style="font-size:1.15rem;font-family:'Outfit',sans-serif">Medicine database loading...</strong>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-history" class="page-section">
+      <div class="main" style="max-width:800px">
+        <div class="section-title" style="margin-top:16px">⏳ Your Scan & Search History</div>
+        <p style="color:var(--muted); margin-bottom:24px; font-weight:500;">Click on any past scan or search to view the cheaper generic alternatives again.</p>
+        <div id="historyResults" class="result-card" style="padding:48px; text-align:center; color:var(--muted)">
+          <div style="font-size:3rem; margin-bottom:16px">⏳</div>
+          <strong style="font-size:1.15rem; font-family:'Outfit',sans-serif">Loading history...</strong>
         </div>
       </div>
     </div>
@@ -766,6 +915,8 @@ html_app = dedent(
     <script>
       const API_BASE = "{API_BASE}";
       const HEALTH_URL = "{HEALTH_URL}";
+
+      let currentUser = null;
 
       function esc(value) {{
         return String(value ?? '').replace(/[&<>"']/g, ch => ({{
@@ -783,7 +934,9 @@ html_app = dedent(
         document.getElementById('page-' + name).classList.add('active');
         document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
         if (el) el.classList.add('active');
+        
         if (name === 'browse') loadBrowse();
+        if (name === 'history') loadHistory();
       }}
 
       async function updateStatus() {{
@@ -795,9 +948,128 @@ html_app = dedent(
             : 'Backend Online';
         }} catch (err) {{
           document.getElementById('statusText').textContent = 'Backend Offline';
-          document.querySelector('.status-pill').style.borderColor = '#FF6B35';
-          document.querySelector('.status-pill').style.color = '#c94a1a';
-          document.querySelector('.status-pill').style.background = '#fff4ee';
+          document.querySelector('.status-pill').style.borderColor = '#F97316';
+          document.querySelector('.status-pill').style.color = '#C2410C';
+          document.querySelector('.status-pill').style.background = '#FFF7ED';
+        }}
+      }}
+
+      function updateAuthUI() {{
+        const stored = localStorage.getItem('medico_user');
+        const authContainer = document.getElementById('authContainer');
+        const historyLink = document.getElementById('historyLink');
+        
+        if (stored) {{
+          try {{
+            currentUser = JSON.parse(stored);
+            authContainer.innerHTML = `
+              <span class="auth-user" style="margin-right:8px;">👋 Hi, ${{esc(currentUser.name)}}</span>
+              <button class="auth-btn" onclick="handleLogout()">Logout</button>
+            `;
+            historyLink.style.display = 'block';
+          }} catch (e) {{
+            localStorage.removeItem('medico_user');
+            currentUser = null;
+            authContainer.innerHTML = `
+              <button class="auth-btn" onclick="openAuthModal('login')">Login</button>
+              <button class="auth-btn primary" onclick="openAuthModal('signup')">Sign Up</button>
+            `;
+            historyLink.style.display = 'none';
+          }}
+        }} else {{
+          currentUser = null;
+          authContainer.innerHTML = `
+            <button class="auth-btn" onclick="openAuthModal('login')">Login</button>
+            <button class="auth-btn primary" onclick="openAuthModal('signup')">Sign Up</button>
+          `;
+          historyLink.style.display = 'none';
+          if (document.getElementById('page-history').classList.contains('active')) {{
+            showPage('home', document.querySelector('.nav-links a'));
+          }}
+        }}
+      }}
+
+      function handleLogout() {{
+        localStorage.removeItem('medico_user');
+        currentUser = null;
+        updateAuthUI();
+        showPage('home', document.querySelector('.nav-links a'));
+      }}
+
+      let authMode = 'login';
+
+      function openAuthModal(mode) {{
+        authMode = mode;
+        const modal = document.getElementById('authModal');
+        const title = document.getElementById('modalTitle');
+        const btn = document.getElementById('authSubmitBtn');
+        const toggleText = document.getElementById('modalToggleText');
+        const toggleLink = document.getElementById('modalToggleLink');
+        const nameGroup = document.getElementById('nameFieldGroup');
+        const errorDiv = document.getElementById('authError');
+        
+        errorDiv.style.display = 'none';
+        document.getElementById('authEmail').value = '';
+        document.getElementById('authPassword').value = '';
+        document.getElementById('authName').value = '';
+        
+        if (mode === 'signup') {{
+          title.textContent = 'Create Account';
+          btn.textContent = 'Sign Up';
+          toggleText.textContent = 'Already have an account?';
+          toggleLink.textContent = 'Login';
+          nameGroup.style.display = 'block';
+          document.getElementById('authName').required = true;
+        }} else {{
+          title.textContent = 'Welcome Back';
+          btn.textContent = 'Login';
+          toggleText.textContent = "Don't have an account?";
+          toggleLink.textContent = 'Sign Up';
+          nameGroup.style.display = 'none';
+          document.getElementById('authName').required = false;
+        }}
+        
+        modal.classList.add('active');
+      }}
+
+      function closeAuthModal() {{
+        document.getElementById('authModal').classList.remove('active');
+      }}
+
+      function toggleAuthMode() {{
+        openAuthModal(authMode === 'login' ? 'signup' : 'login');
+      }}
+
+      async function handleAuthSubmit(event) {{
+        event.preventDefault();
+        const errorDiv = document.getElementById('authError');
+        errorDiv.style.display = 'none';
+        
+        const email = document.getElementById('authEmail').value.trim();
+        const password = document.getElementById('authPassword').value;
+        const name = document.getElementById('authName').value.trim();
+        
+        const endpoint = authMode === 'login' ? '/auth/login' : '/auth/signup';
+        const payload = authMode === 'login' ? {{ email, password }} : {{ email, password, name }};
+        
+        try {{
+          const res = await fetch(`${{API_BASE}}${{endpoint}}`, {{
+            method: 'POST',
+            headers: {{ 'Content-Type': 'application/json' }},
+            body: JSON.stringify(payload)
+          }});
+          
+          const data = await res.json();
+          if (!res.ok) {{
+            throw new Error(data.detail || 'Authentication failed');
+          }}
+          
+          localStorage.setItem('medico_user', JSON.stringify(data));
+          closeAuthModal();
+          updateAuthUI();
+        }} catch (err) {{
+          errorDiv.textContent = err.message;
+          errorDiv.style.display = 'block';
         }}
       }}
 
@@ -836,7 +1108,7 @@ html_app = dedent(
         const urls = (alt.source_urls || []).slice(0, 3);
         const links = urls.map((url, i) => `<a href="${{esc(url)}}" target="_blank" rel="noopener" style="color:white;text-decoration:underline">Source ${{i + 1}}</a>`).join(' · ');
         return `
-          <div class="cheapest-banner" style="background:linear-gradient(90deg,#2563EB,#1e40af)">
+          <div class="cheapest-banner" style="background:linear-gradient(90deg,#3B82F6,#1D4ED8)">
             <div class="cheapest-icon">🌐</div>
             <div class="cheapest-text">
               <div class="title">Web info from ${{esc(alt.source || 'public drug databases')}}</div>
@@ -917,7 +1189,6 @@ html_app = dedent(
             <div class="result-card">
               <div class="result-header">
                 <div class="medicine-name">💊 ${{esc(r.matched_brand || r.query)}} ${{badgeFor(r)}}</div>
-                <button style="background:none;border:none;font-size:1.3rem;cursor:pointer;">▲</button>
               </div>
               <div class="composition">🧪 Active Ingredient: <span>${{esc(r.salt_composition || '')}}</span></div>
               <div class="options-wrap">
@@ -962,8 +1233,16 @@ html_app = dedent(
       async function searchMedicine(name, targetId) {{
         const target = document.getElementById(targetId);
         target.innerHTML = '<div class="loading">Searching cheaper alternatives...</div>';
+        
+        const headers = {{}};
+        if (currentUser && currentUser.token) {{
+          headers['Authorization'] = `Bearer ${currentUser.token}`;
+        }}
+        
         try {{
-          const res = await fetch(`${{API_BASE}}/medicines/search?name=${{encodeURIComponent(name)}}`);
+          const res = await fetch(`${{API_BASE}}/medicines/search?name=${{encodeURIComponent(name)}}`, {{
+            headers: headers
+          }});
           if (!res.ok) throw new Error(await res.text());
           const data = await res.json();
           target.innerHTML = resultsHtml([data]);
@@ -1023,17 +1302,30 @@ html_app = dedent(
           target.innerHTML = '<div class="error-msg">Please choose a prescription image first.</div>';
           return;
         }}
+        
         const form = new FormData();
         form.append('file', fileInput.files[0]);
         form.append('ocr_engine', 'auto');
         target.innerHTML = '<div class="loading">Running OCR and AI analysis...</div>';
+        
+        const headers = {{}};
+        if (currentUser && currentUser.token) {{
+          headers['Authorization'] = `Bearer ${currentUser.token}`;
+        }}
+        
         try {{
           try {{
             await fetch(HEALTH_URL, {{ cache: 'no-store' }});
           }} catch (healthErr) {{
             throw new Error('Backend is not reachable. Start FastAPI on port 8000 and try again.');
           }}
-          const res = await fetch(`${{API_BASE}}/upload`, {{ method: 'POST', body: form }});
+          
+          const res = await fetch(`${{API_BASE}}/upload`, {{ 
+            method: 'POST', 
+            body: form,
+            headers: headers
+          }});
+          
           if (!res.ok) {{
             let message = await res.text();
             try {{
@@ -1045,9 +1337,9 @@ html_app = dedent(
           const data = await res.json();
           document.getElementById('scanDetails').innerHTML = scanDetailsHtml(data);
           target.innerHTML = `
-            <div class="result-card" style="padding:20px">
+            <div class="result-card" style="padding:24px">
               <div class="section-title">📄 Raw OCR Text</div>
-              <pre style="white-space:pre-wrap;color:var(--muted)">${{esc(data.raw_text || '(empty)')}}</pre>
+              <pre style="white-space:pre-wrap;color:var(--muted);font-family:'Plus Jakarta Sans',sans-serif;line-height:1.5">${{esc(data.raw_text || '(empty)')}}</pre>
             </div>
           ` + resultsHtml(data.results || []);
         }} catch (err) {{
@@ -1055,12 +1347,67 @@ html_app = dedent(
         }}
       }}
 
+      async function loadHistory() {{
+        const target = document.getElementById('historyResults');
+        if (!currentUser || !currentUser.token) {{
+          target.innerHTML = '<div class="error-msg">Please log in to view your history.</div>';
+          return;
+        }}
+        target.innerHTML = '<div class="loading">Loading your search history...</div>';
+        try {{
+          const res = await fetch(`${{API_BASE}}/auth/history`, {{
+            headers: {{ 'Authorization': `Bearer ${currentUser.token}` }}
+          }});
+          if (!res.ok) throw new Error('Failed to fetch history');
+          const data = await res.json();
+          
+          if (!data || !data.length) {{
+            target.innerHTML = `
+              <div style="padding:40px; text-align:center;">
+                <div style="font-size:3rem; margin-bottom:16px;">🔍</div>
+                <h3>No scan or search history found</h3>
+                <p style="color:var(--muted); margin-top:8px;">Search for medicines or upload prescriptions to see them here.</p>
+              </div>
+            `;
+            return;
+          }
+          
+          const itemsHtml = data.map(h => {{
+            const date = new Date(h.timestamp).toLocaleString();
+            return `
+              <div class="history-item" onclick="viewHistoryItem('${{esc(h.medicines_searched)}}')">
+                <div style="display:flex; flex-direction:column; align-items:flex-start; gap:4px;">
+                  <div style="font-weight:800; font-family:'Outfit',sans-serif; color:var(--text); font-size:1.1rem;">💊 ${{esc(h.medicines_searched)}}</div>
+                  <div style="font-size:0.85rem; color:var(--muted);">${{esc(date)}}</div>
+                </div>
+                <div style="font-weight:700; color:var(--green-dark); font-size:0.9rem;">View Alternatives →</div>
+              </div>
+            `;
+          }}).join('');
+          
+          target.className = '';
+          target.style.padding = '0';
+          target.innerHTML = itemsHtml;
+        }} catch (err) {{
+          target.className = 'result-card';
+          target.style.padding = '24px';
+          target.innerHTML = `<div class="error-msg">${{esc(err.message)}}</div>`;
+        }}
+      }}
+
+      function viewHistoryItem(meds) {{
+        // Redirect to standalone search page and search
+        showPage('search', document.querySelector('.nav-links a[onclick*="search"]'));
+        document.getElementById('searchPageInput').value = meds;
+        searchStandalone();
+      }}
+
       async function loadCategories() {{
         try {{
           const res = await fetch(`${{API_BASE}}/categories`);
           const cats = await res.json();
           const wrap = document.getElementById('categoryTabs');
-          cats.slice(0, 6).forEach(cat => {{
+          cats.slice(0, 8).forEach(cat => {{
             const div = document.createElement('div');
             div.className = 'tab';
             div.textContent = cat;
@@ -1126,25 +1473,62 @@ html_app = dedent(
       document.getElementById('searchPageInput').addEventListener('keydown', e => {{
         if (e.key === 'Enter') searchStandalone();
       }});
+      
       document.getElementById('prescriptionFile').addEventListener('change', e => {{
         const file = e.target.files && e.target.files[0];
         const preview = document.getElementById('previewBox');
         const details = document.getElementById('scanDetails');
+        const runBtn = document.getElementById('runOcrBtn');
+        const nameP = document.getElementById('selectedFileName');
+        
         if (!file) {{
           preview.innerHTML = '<div class="preview-empty">Selected prescription image will appear here</div>';
+          runBtn.style.display = 'none';
+          nameP.textContent = 'Supports JPG, PNG, WebP, BMP, TIFF · Max 10MB';
           return;
         }}
+        
+        nameP.textContent = `${{esc(file.name)}} · ${(file.size / 1024).toFixed(1)} KB`;
+        runBtn.style.display = 'block';
+        
         const url = URL.createObjectURL(file);
         preview.innerHTML = `<img src="${{url}}" alt="Selected prescription image">`;
         details.innerHTML = `
           <div class="section-title" style="margin-bottom:8px">Ready to Scan</div>
-          <p style="color:var(--muted);font-weight:700">${{esc(file.name)}} · ${{(file.size / 1024).toFixed(1)}} KB</p>
-          <p style="color:var(--muted);font-weight:600;margin-top:8px">Click Analyse Prescription to extract medicine names from this image.</p>
+          <p style="color:var(--muted);font-weight:700">${{esc(file.name)}}</p>
+          <p style="color:var(--muted);font-weight:600;margin-top:8px">Click the button above to extract medicine names from this image using Gemini OCR.</p>
         `;
       }});
 
+      // Close modal on click outside
+      window.addEventListener('click', e => {{
+        const modal = document.getElementById('authModal');
+        if (e.target === modal) {{
+          closeAuthModal();
+        }}
+      }});
+
+      // Vercel check: show warning if GEMINI_API_KEY is not set in Vercel environment
+      function checkVercelEnvironment() {{
+        const isVercel = window.location.hostname.includes('vercel.app');
+        if (isVercel) {{
+          const warningDiv = document.getElementById('uploadVercelWarning');
+          fetch(HEALTH_URL)
+            .then(res => res.json())
+            .then(data => {{
+              warningDiv.innerHTML = `💡 <strong>Vercel Deployment Tip:</strong> Ensure you have configured <code>GEMINI_API_KEY</code> in your Vercel Environment Variables dashboard for prescription scans to work perfectly in the cloud.`;
+              warningDiv.style.display = 'block';
+              warningDiv.style.background = '#EFF6FF';
+              warningDiv.style.color = '#1E40AF';
+              warningDiv.style.border = '1px solid rgba(59,130,246,0.3)';
+            }}).catch(() => {{}});
+        }}
+      }}
+
       updateStatus();
+      updateAuthUI();
       loadCategories();
+      checkVercelEnvironment();
     </script>
     </body>
     </html>

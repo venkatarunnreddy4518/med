@@ -8,8 +8,9 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, Query, HTTPException
 from pydantic import BaseModel, Field
 
-from backend.database.db import get_db, Medicine
+from backend.database.db import get_db, Medicine, SearchHistory, User
 from backend.services.matcher import find_alternatives, AlternativeResult
+from backend.routes.auth import get_current_user
 
 router = APIRouter()
 
@@ -101,11 +102,24 @@ def list_medicines(
 def search_medicine(
     name: str = Query(..., description="Brand or generic medicine name"),
     db=Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user),
 ):
     """
     Single medicine fuzzy search — returns cheapest alternatives.
     """
     match = find_alternatives(name, db)
+    
+    # Log search in history if authenticated
+    if current_user:
+        import uuid
+        history = SearchHistory(
+            medicines_searched=name,
+            session_id=str(uuid.uuid4()),
+            user_id=current_user.id,
+        )
+        db.add(history)
+        db.commit()
+
     alts = [
         AlternativeOut(
             brand_name=a.brand_name,

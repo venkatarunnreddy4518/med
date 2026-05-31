@@ -206,7 +206,7 @@ def home():
               <input id="prescriptionFile" type="file" accept="image/jpeg,image/png,image/webp,image/bmp,image/tiff" required />
               <button type="submit">Analyse Prescription</button>
             </form>
-            <p class="notice">For handwriting OCR on Vercel, set ANTHROPIC_API_KEY in your Vercel environment variables.</p>
+            <p class="notice">For handwriting OCR on Vercel, set GEMINI_API_KEY in your Vercel environment variables.</p>
           </section>
 
           <section id="results"></section>

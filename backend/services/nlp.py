@@ -2,7 +2,7 @@
 NLP service for prescription text.
 
 The rule-based extractor is fast and offline. If MEDICO_USE_LLM_NLP=true and
-ANTHROPIC_API_KEY is available, a text LLM can clean up ambiguous OCR output.
+GEMINI_API_KEY or GOOGLE_API_KEY is available, a text LLM can clean up ambiguous OCR output.
 """
 from __future__ import annotations
 
@@ -128,39 +128,55 @@ def _rule_extract_details(text: str) -> List[Dict[str, Optional[str]]]:
 
 def _should_use_llm() -> bool:
     enabled = os.environ.get("MEDICO_USE_LLM_NLP", "").strip().lower()
-    return enabled in {"1", "true", "yes", "on"} and bool(os.environ.get("ANTHROPIC_API_KEY"))
+    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", ""))
+    return enabled in {"1", "true", "yes", "on"} and bool(api_key)
 
 
 def _llm_extract_details(text: str) -> List[Dict[str, Optional[str]]]:
+    api_key = os.environ.get("GEMINI_API_KEY", os.environ.get("GOOGLE_API_KEY", ""))
+    if not api_key:
+        return []
     try:
-        import anthropic  # type: ignore
+        import requests
 
-        model = os.environ.get("MEDICO_TEXT_MODEL", "claude-3-5-haiku-latest")
-        client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-        message = client.messages.create(
-            model=model,
-            max_tokens=600,
-            messages=[
-                {
-                    "role": "user",
-                    "content": (
-                        "Extract only medicine entries from this OCR prescription text. "
-                        "Return strict JSON only: "
-                        "[{\"name\":\"brand or generic\",\"form\":\"tablet/capsule/etc or null\","
-                        "\"dosage\":\"strength or null\",\"source_line\":\"line from OCR\"}]. "
-                        "Ignore doctor names, diagnosis, dates, and instructions.\n\n"
-                        f"{text[:5000]}"
-                    ),
-                }
-            ],
+        model = os.environ.get("MEDICO_TEXT_MODEL", "gemini-1.5-flash")
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        prompt = (
+            "Extract only medicine entries from this OCR prescription text. "
+            "Return strict JSON only: "
+            "[{\"name\":\"brand or generic\",\"form\":\"tablet/capsule/etc or null\","
+            "\"dosage\":\"strength or null\",\"source_line\":\"line from OCR\"}]. "
+            "Ignore doctor names, diagnosis, dates, and instructions.\n\n"
+            f"{text[:5000]}"
         )
-        content = message.content[0].text if message.content else "[]"
-        payload = json.loads(_json_slice(content))
-        if not isinstance(payload, list):
+        payload = {
+            "contents": [
+                {
+                    "parts": [
+                        {
+                            "text": prompt
+                        }
+                    ]
+                }
+            ]
+        }
+        response = requests.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=30)
+        if response.status_code != 200:
+            logger.warning("Gemini NLP API returned status %s: %s", response.status_code, response.text)
+            return []
+
+        resp_json = response.json()
+        try:
+            content = resp_json["candidates"][0]["content"]["parts"][0]["text"]
+        except (KeyError, IndexError):
+            content = "[]"
+
+        payload_data = json.loads(_json_slice(content))
+        if not isinstance(payload_data, list):
             return []
 
         details: List[Dict[str, Optional[str]]] = []
-        for item in payload:
+        for item in payload_data:
             if not isinstance(item, dict):
                 continue
             name = str(item.get("name") or "").strip()
@@ -177,7 +193,7 @@ def _llm_extract_details(text: str) -> List[Dict[str, Optional[str]]]:
             )
         return _dedupe_details(details)
     except Exception as e:
-        logger.warning("LLM medicine extraction skipped: %s", e)
+        logger.warning("Gemini LLM medicine extraction failed: %s", e)
         return []
 
 

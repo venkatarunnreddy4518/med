@@ -11,10 +11,11 @@ from fastapi import APIRouter, File, UploadFile, HTTPException, Depends, Form
 from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
 
-from backend.database.db import get_db, SearchHistory
+from backend.database.db import get_db, SearchHistory, User
 from backend.services.ocr import extract_text_from_image
 from backend.services.nlp import extract_medicine_details
 from backend.services.matcher import bulk_find_alternatives, MedicineMatch, AlternativeResult
+from backend.routes.auth import get_current_user
 
 router = APIRouter()
 
@@ -123,6 +124,7 @@ async def upload_prescription(
     file: UploadFile = File(...),
     ocr_engine: str = Form("auto"),
     db=Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user),
 ):
     """
     Upload a prescription image (JPG / PNG / WebP / BMP).
@@ -160,6 +162,7 @@ async def upload_prescription(
     history = SearchHistory(
         medicines_searched=", ".join(medicines_found),
         session_id=session_id,
+        user_id=current_user.id if current_user else None,
     )
     db.add(history)
     db.commit()
@@ -183,6 +186,7 @@ async def upload_prescription(
 async def search_by_text(
     prescription_text: str = Form(...),
     db=Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user),
 ):
     """
     Manually enter prescription text (skip OCR).
@@ -195,6 +199,7 @@ async def search_by_text(
     history = SearchHistory(
         medicines_searched=", ".join(medicines_found),
         session_id=session_id,
+        user_id=current_user.id if current_user else None,
     )
     db.add(history)
     db.commit()

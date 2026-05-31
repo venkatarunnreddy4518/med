@@ -49,6 +49,7 @@ class SearchHistory(Base):
     medicines_searched = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
     session_id = Column(String)
+    user_id = Column(Integer, nullable=True)
 
 
 class User(Base):
@@ -72,6 +73,29 @@ def get_db():
 def init_db():
     """Create tables and seed from CSV if empty."""
     Base.metadata.create_all(bind=engine)
+    # Check if user_id column exists in search_history, if not add it dynamically
+    from sqlalchemy import text
+    db = SessionLocal()
+    try:
+        if DATABASE_URL.startswith("sqlite"):
+            res = db.execute(text("PRAGMA table_info(search_history);")).fetchall()
+            cols = [r[1] for r in res]
+            if "user_id" not in cols:
+                db.execute(text("ALTER TABLE search_history ADD COLUMN user_id INTEGER;"))
+                db.commit()
+                print("[DB] Dynamically added 'user_id' column to search_history table.")
+        else:
+            try:
+                db.execute(text("ALTER TABLE search_history ADD COLUMN IF NOT EXISTS user_id INTEGER;"))
+                db.commit()
+                print("[DB] Handled PostgreSQL 'user_id' column creation.")
+            except Exception:
+                db.rollback()
+    except Exception as e:
+        print(f"[DB] Migration check skipped/failed: {e}")
+        db.rollback()
+    finally:
+        db.close()
     _seed_if_empty()
 
 

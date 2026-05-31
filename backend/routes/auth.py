@@ -1,5 +1,5 @@
 """
-Authentication routes for lightweight demo accounts.
+Authentication routes for lightweight accounts.
 """
 from __future__ import annotations
 
@@ -7,13 +7,23 @@ import hashlib
 import hmac
 import re
 import secrets
+import base64
+import json
+import time
+import os
+import logging
+from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Header
 from pydantic import BaseModel, Field, field_validator
 
-from backend.database.db import User, get_db
+from backend.database.db import User, SearchHistory, get_db
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+JWT_SECRET = os.getenv("JWT_SECRET", "medico-ai-super-secret-key-12345")
 
 
 class AuthIn(BaseModel):
@@ -55,12 +65,77 @@ def _verify_password(password: str, stored: str) -> bool:
         return False
 
 
+def encode_jwt(payload: dict) -> str:
+    # 1 year expiration by default for easy demo/industrial UX
+    payload = dict(payload)
+    if "exp" not in payload:
+        payload["exp"] = int(time.time()) + 365 * 24 * 3600
+        
+    header = {"alg": "HS256", "typ": "JWT"}
+    header_b64 = base64.urlsafe_b64encode(json.dumps(header).encode()).decode().rstrip("=")
+    payload_b64 = base64.urlsafe_b64encode(json.dumps(payload).encode()).decode().rstrip("=")
+    
+    signing_input = f"{header_b64}.{payload_b64}".encode()
+    signature = hmac.new(JWT_SECRET.encode(), signing_input, hashlib.sha256).digest()
+    signature_b64 = base64.urlsafe_b64encode(signature).decode().rstrip("=")
+    
+    return f"{header_b64}.{payload_b64}.{signature_b64}"
+
+
+def decode_jwt(token: str) -> dict:
+    try:
+        parts = token.split(".")
+        if len(parts) != 3:
+            raise ValueError("Invalid token parts count")
+        header_b64, payload_b64, signature_b64 = parts
+        
+        # Verify signature
+        signing_input = f"{header_b64}.{payload_b64}".encode()
+        expected_sig = hmac.new(JWT_SECRET.encode(), signing_input, hashlib.sha256).digest()
+        expected_sig_b64 = base64.urlsafe_b64encode(expected_sig).decode().rstrip("=")
+        
+        if not hmac.compare_digest(signature_b64, expected_sig_b64):
+            raise ValueError("Signature check failed")
+            
+        # Decode payload
+        rem = len(payload_b64) % 4
+        if rem > 0:
+            payload_b64 += "=" * (4 - rem)
+        payload_data = base64.urlsafe_b64decode(payload_b64.encode()).decode()
+        payload = json.loads(payload_data)
+        
+        if "exp" in payload and payload["exp"] < time.time():
+            raise ValueError("Token expired")
+            
+        return payload
+    except Exception as e:
+        logger.warning(f"JWT decode failed: {e}")
+        return {}
+
+
+def get_current_user(authorization: Optional[str] = Header(None), db=Depends(get_db)) -> Optional[User]:
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    token = authorization.split(" ", 1)[1]
+    payload = decode_jwt(token)
+    if not payload or "user_id" not in payload:
+        return None
+    return db.query(User).filter(User.id == payload["user_id"]).first()
+
+
+def require_current_user(current_user: Optional[User] = Depends(get_current_user)) -> User:
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Authentication required or token expired.")
+    return current_user
+
+
 def _auth_out(user: User) -> AuthOut:
+    token = encode_jwt({"user_id": user.id, "name": user.name, "email": user.email})
     return AuthOut(
         id=user.id,
         name=user.name,
         email=user.email,
-        token=secrets.token_urlsafe(32),
+        token=token,
     )
 
 
@@ -89,3 +164,20 @@ def login(payload: AuthIn, db=Depends(get_db)):
     if not user or not _verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid email or password.")
     return _auth_out(user)
+
+
+@router.get("/auth/history")
+def get_user_history(
+    current_user: User = Depends(require_current_user),
+    db=Depends(get_db)
+):
+    history = db.query(SearchHistory).filter(SearchHistory.user_id == current_user.id).order_by(SearchHistory.timestamp.desc()).all()
+    return [
+        {
+            "id": h.id,
+            "medicines_searched": h.medicines_searched,
+            "timestamp": h.timestamp.isoformat() + "Z",
+            "session_id": h.session_id,
+        }
+        for h in history
+    ]
